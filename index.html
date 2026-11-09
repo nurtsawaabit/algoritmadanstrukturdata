@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Algoritma dan Struktur Data Dasar</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f6ff;--cd:#fff;--tx:#1e1b4b;--mu:#5b5f87;--pr:#4f46e5;--p2:#7c3aed;--bl:#2563eb;--ok:#16a34a;--no:#dc2626;--hi:#f59e0b;--bd:#e0e3f7;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f1130;--cd:#1b1e4a;--tx:#eef0ff;--mu:#a5a9d6;--bd:#2f3470;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#0f1130;--cd:#1b1e4a;--tx:#eef0ff;--mu:#a5a9d6;--bd:#2f3470;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:600 16px/1.6 Nunito,system-ui,sans-serif;background-image:radial-gradient(circle at 90% 0,rgba(124,58,237,.12),transparent 40%)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+h1,h2,h3{line-height:1.2;margin:.2em 0 .5em}h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900}h2{font-size:1.6rem}h3{font-size:1.15rem}
+aside{position:fixed;left:0;top:env(safe-area-inset-top,0px);bottom:0;width:250px;background:var(--cd);border-right:2px solid var(--bd);padding:14px;overflow:auto;z-index:20;transition:transform .3s}
+.logo{font-weight:900;font-size:1.1rem;color:var(--pr);margin:4px 6px 12px}
+aside button{display:flex;gap:10px;width:100%;text-align:left;border:0;background:none;color:var(--tx);font:inherit;font-weight:800;padding:9px 12px;border-radius:12px;cursor:pointer}
+aside button:hover{background:var(--bg)}aside button.on{background:linear-gradient(90deg,var(--pr),var(--p2));color:#fff}
+main{margin-left:250px;padding:0 24px 60px;max-width:1100px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;align-items:center;gap:8px;padding:10px 0;background:var(--bg)}
+header span{flex:1;font-weight:900}
+.ic{border:2px solid var(--bd);background:var(--cd);color:var(--tx);border-radius:12px;width:42px;height:42px;font-size:18px;cursor:pointer}#mn{display:none}
+.pg{display:none}.pg.on{display:block;animation:fi .35s}@keyframes fi{from{opacity:0;transform:translateY(8px)}}
+.card{background:var(--cd);border:2px solid var(--bd);border-radius:20px;padding:18px;margin:14px 0}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}.g2 .card{margin:0}
+.mu{color:var(--mu)}pre{background:#1e1b4b;color:#e0e7ff;padding:12px;border-radius:12px;overflow:auto;font-size:13px;margin:8px 0}
+.b,.b2{border:0;border-radius:14px;padding:10px 16px;font:inherit;font-weight:900;cursor:pointer;background:var(--pr);color:#fff;box-shadow:0 4px 0 #3730a3}
+.b2{background:var(--cd);color:var(--tx);border:2px solid var(--bd);box-shadow:0 3px 0 var(--bd);padding:8px 14px}
+.b:active,.b2:active{transform:translateY(3px);box-shadow:none}
+button:focus-visible,input:focus-visible,select:focus-visible,li:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+input,select{font:inherit;font-weight:700;padding:8px 10px;border-radius:10px;border:2px solid var(--bd);background:var(--bg);color:var(--tx)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}.row label{display:flex;gap:6px;align-items:center}
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:20px;align-items:center;background:linear-gradient(135deg,var(--pr),var(--p2) 60%,var(--bl));color:#fff;border-radius:28px;padding:30px;margin-top:6px}
+.hero .b{background:#fff;color:var(--pr);box-shadow:0 4px 0 #c7d2fe;font-size:1.1rem}.hero p{opacity:.92}
+.pbar{height:14px;border-radius:9px;background:var(--bd);overflow:hidden}.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--ok),#22d3ee);transition:width .5s}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:12px}.stats div{background:var(--bg);border-radius:14px;padding:10px;text-align:center}.stats b{display:block;font-size:1.6rem;color:var(--pr)}
+.bdg{display:flex;flex-wrap:wrap;gap:8px}.bdg span{padding:6px 12px;border-radius:99px;background:var(--bg);border:2px dashed var(--bd);opacity:.5;font-weight:800}.bdg span.got{opacity:1;border:2px solid var(--hi);background:#fef3c7;color:#78350f}
+.stage{min-height:110px;margin:10px 0}.stage.bars{display:flex;align-items:flex-end;gap:4px;height:220px;padding-top:22px}
+.bi{flex:1;min-width:14px;position:relative;border-radius:8px 8px 0 0;background:linear-gradient(var(--p2),var(--bl));transition:height .35s,background .3s}
+.bi span{position:absolute;top:-20px;width:100%;text-align:center;font-size:12px;font-weight:800}
+.bi.hi{background:var(--hi)}.bi.sw{background:#ec4899}.bi.so{background:var(--ok)}
+.stage.bxs{display:flex;flex-wrap:wrap;gap:8px;padding-top:8px}
+.bx{width:50px;height:58px;border:2px solid var(--bd);border-radius:12px;display:grid;place-items:center;background:var(--cd);font-weight:900;transition:.3s;align-content:center;line-height:1.1}.bx small{font-size:10px;color:var(--mu)}
+.bx.dim{opacity:.35}.bx.hi{border-color:var(--hi);background:#fef3c7;color:#78350f;transform:translateY(-6px)}.bx.mid{border-color:var(--p2);background:#ede9fe;color:#4c1d95}.bx.ok{border-color:var(--ok);background:#dcfce7;color:#14532d}
+.msg{min-height:26px;font-weight:800;color:var(--p2)}.ctr{display:flex;gap:16px;flex-wrap:wrap;margin:4px 0}
+.sb{display:flex;flex-direction:column-reverse;gap:6px;width:150px;min-height:270px;border:3px solid var(--p2);border-top:0;border-radius:0 0 14px 14px;padding:8px;margin:12px auto}
+.qb{display:flex;gap:6px;min-height:70px;border:3px solid var(--p2);border-left:0;border-right:0;padding:8px;overflow-x:auto;margin:12px 0}
+.it{background:linear-gradient(135deg,var(--p2),var(--bl));color:#fff;border-radius:10px;padding:10px;text-align:center;font-weight:900;min-width:54px}
+.sb .it.in{animation:dn .4s}.qb .it.in{animation:rt .4s}.sb .it.out{animation:up .35s forwards}.qb .it.out{animation:lf .35s forwards}
+@keyframes dn{from{transform:translateY(-130px);opacity:0}}@keyframes rt{from{transform:translateX(90px);opacity:0}}@keyframes up{to{transform:translateY(-110px);opacity:0}}@keyframes lf{to{transform:translateX(-90px);opacity:0}}
+.cr{margin:10px 0}.cb{background:var(--pr);color:#fff;border-radius:8px;padding:2px 10px;margin:3px 0;font-size:14px;white-space:nowrap;min-width:fit-content}.cb.c2{background:var(--ok)}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{border:2px solid var(--bd);padding:8px;text-align:left}th{background:var(--bg)}.tw{overflow-x:auto}
+.q{font-size:1.1rem;margin:8px 0}.opts{display:grid;gap:8px}.opt{text-align:left;border:2px solid var(--bd);background:var(--cd);color:var(--tx);border-radius:14px;padding:12px;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 3px 0 var(--bd)}
+.opt.right{border-color:var(--ok);background:#dcfce7;color:#14532d}.opt.wrong{border-color:var(--no);background:#fee2e2;color:#7f1d1d}
+.dl{padding:0;list-style:none}.dl li{background:var(--bg);border:2px solid var(--bd);border-radius:12px;padding:10px;margin:6px 0;cursor:grab}.dl li.sel{border-color:var(--hi);background:#fef3c7;color:#78350f}
+.cert{border:6px double var(--p2);border-radius:16px;padding:20px;text-align:center;background:var(--cd);margin:12px 0}
+svg text{font:800 13px Nunito,sans-serif}.nd{cursor:pointer}.nd:hover rect,.nd:focus rect{stroke:var(--hi);stroke-width:3}
+#toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--pr);color:#fff;padding:10px 18px;border-radius:99px;font-weight:900;opacity:0;pointer-events:none;transition:.3s;z-index:40}#toast.on{opacity:1}
+@media(max-width:860px){aside{transform:translateX(-100%)}aside.open{transform:none;box-shadow:0 0 40px rgba(0,0,0,.4)}main{margin-left:0;padding:0 14px 60px}#mn{display:block}.hero{grid-template-columns:1fr;padding:20px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{body *{visibility:hidden}.cert,.cert *{visibility:visible}.cert{position:absolute;left:0;top:0;width:100%}}
+</style></head><body>
+<aside id="sb" aria-label="Navigasi"><div class="logo">💻 Algo &amp; Data</div><nav id="nv"></nav></aside>
+<main>
+<header><button class="ic" id="mn" aria-label="Menu">☰</button><span id="tt"></span><button class="ic" id="th" aria-label="Mode gelap/terang">🌓</button><button class="ic" id="mu" aria-label="Musik latar">🔇</button><button class="ic" id="sn" aria-label="Efek suara">🔊</button></header>
+
+<section class="pg" id="p0">
+<div class="hero"><div><h1>Algoritma dan Struktur Data Dasar</h1><p style="font-size:1.2rem">Belajar Algoritma dan Struktur Data Secara Interaktif</p><button class="b" data-go="2">🚀 Mulai Belajar</button></div>
+<svg viewBox="0 0 300 220" role="img" aria-label="Ilustrasi laptop dengan data bergerak"><rect x="50" y="30" width="200" height="130" rx="12" fill="#1e1b4b"/><rect x="60" y="40" width="180" height="110" rx="6" fill="#312e81"/><path d="M20 170h260l-20 20H40z" fill="#c7d2fe"/>
+<g fill="#22d3ee"><rect x="80" y="60" width="18" height="80" rx="3"><animate attributeName="height" values="80;30;80" dur="2.4s" repeatCount="indefinite"/><animate attributeName="y" values="60;110;60" dur="2.4s" repeatCount="indefinite"/></rect><rect x="108" y="100" width="18" height="40" rx="3" fill="#f59e0b"><animate attributeName="height" values="40;75;40" dur="2.4s" repeatCount="indefinite"/><animate attributeName="y" values="100;65;100" dur="2.4s" repeatCount="indefinite"/></rect><rect x="136" y="80" width="18" height="60" rx="3" fill="#a78bfa"><animate attributeName="height" values="60;20;60" dur="2s" repeatCount="indefinite"/><animate attributeName="y" values="80;120;80" dur="2s" repeatCount="indefinite"/></rect><rect x="164" y="55" width="18" height="85" rx="3"><animate attributeName="height" values="85;45;85" dur="2.8s" repeatCount="indefinite"/><animate attributeName="y" values="55;95;55" dur="2.8s" repeatCount="indefinite"/></rect><rect x="192" y="90" width="18" height="50" rx="3" fill="#f472b6"/></g>
+<g fill="#fff" font-weight="900" font-size="22" font-family="monospace"><text x="8" y="40">{ }<animate attributeName="y" values="40;28;40" dur="3s" repeatCount="indefinite"/></text><text x="255" y="60">01<animate attributeName="y" values="60;74;60" dur="3s" repeatCount="indefinite"/></text><text x="262" y="140">AI<animate attributeName="y" values="140;126;140" dur="2.6s" repeatCount="indefinite"/></text></g></svg></div>
+<div class="g2" style="margin-top:14px"><div class="card"><h3>🎯 Capaian pembelajaran</h3><ul><li>Memahami dan menerapkan algoritma pencarian: linear dan binary.</li><li>Memahami dan menerapkan algoritma pengurutan: bubble, insertion, selection.</li><li>Memahami struktur data stack (LIFO) dan queue (FIFO).</li></ul></div>
+<div class="card"><h3>📈 Progres belajarmu</h3><div class="pbar" role="progressbar" aria-label="Progres belajar"><i id="pgb"></i></div><p class="mu" id="pgt"></p><div class="stats" id="st"></div></div></div>
+<div class="card"><h3>🏅 Badge pencapaian</h3><div class="bdg" id="bd"></div></div>
+<div class="card"><h3>📤 Kirim hasil ke guru</h3><p class="mu">Isi data dirimu, lalu kirim supaya gurumu tahu kamu sudah mengerjakan.</p><div class="row"><label>Nama <input id="sn1" maxlength="40"></label><label>Kelas <input id="sk" maxlength="30" placeholder="Ketik kelasmu" style="width:170px"></label></div><div class="row"><button class="b" id="snd">📤 Kirim ke guru</button><button class="b2" id="cpy">📋 Salin baris hasil</button></div><p class="mu" id="snm" aria-live="polite"></p></div></section>
+
+<section class="pg" id="p1"><h2>🗺️ Peta Konsep</h2><p class="mu">Ketuk node mana saja untuk menuju materinya.</p><div class="card"><svg id="mm" viewBox="0 0 700 420" style="width:100%" role="img" aria-label="Peta konsep algoritma"></svg></div></section>
+
+<section class="pg" id="p2"><h2>🔎 Materi Searching</h2>
+<div class="card" id="m-linear"><h3>1. Linear Search</h3><div class="g2"><div><p><b>Pengertian:</b> mencari nilai dengan memeriksa data satu per satu dari awal sampai ketemu.</p><p><b>Cara kerja:</b> bandingkan target dengan tiap elemen secara berurutan.</p><p><b>Contoh sehari-hari:</b> mencari nama di daftar absen yang belum urut.</p></div><div><ol><li>Mulai dari indeks 0.</li><li>Bandingkan elemen dengan target.</li><li>Jika sama, berhenti: ditemukan.</li><li>Jika tidak, lanjut ke indeks berikutnya.</li><li>Jika data habis, target tidak ada.</li></ol><p>👍 Mudah, data tak perlu terurut. 👎 Lambat untuk data besar.</p></div></div><div class="card" id="v-lin"></div></div>
+<div class="card" id="m-binary"><h3>2. Binary Search</h3><div class="g2"><div><p><b>Pengertian:</b> mencari pada data <u>terurut</u> dengan membagi dua daerah pencarian.</p><p><b>Cara kerja:</b> cek nilai tengah; buang separuh data yang tidak mungkin berisi target.</p><p><b>Contoh sehari-hari:</b> mencari kata di kamus dengan membuka halaman tengah.</p></div><div><ol><li>Tentukan batas kiri dan kanan.</li><li>Hitung indeks tengah.</li><li>Jika tengah = target, selesai.</li><li>Jika tengah &lt; target, cari di kanan; jika lebih besar, cari di kiri.</li><li>Ulangi sampai ketemu atau batas habis.</li></ol><p>👍 Sangat cepat. 👎 Data wajib terurut.</p></div></div><div class="card" id="v-bin"></div></div>
+<div class="card"><h3>⚡ Linear vs Binary: jumlah langkah terburuk</h3><div id="chart"></div></div></section>
+
+<section class="pg" id="p3"><h2>📊 Materi Sorting</h2>
+<div class="card" id="m-bubble"><h3>1. Bubble Sort</h3><div class="g2"><div><p><b>Definisi:</b> mengurutkan dengan menukar dua elemen bersebelahan yang salah urutan, berulang kali.</p><p><b>Cara kerja:</b> nilai terbesar "menggelembung" ke ujung kanan di setiap putaran.</p><p><b>Penggunaan:</b> belajar konsep, data sangat kecil.</p></div><pre>ulangi n-1 kali
+  untuk j = 0 .. n-2-i
+    jika a[j] &gt; a[j+1]
+      tukar a[j], a[j+1]</pre></div><div class="card" id="v-bub"></div></div>
+<div class="card" id="m-insertion"><h3>2. Insertion Sort</h3><div class="g2"><div><p><b>Definisi:</b> menyisipkan tiap elemen ke posisi yang tepat pada bagian kiri yang sudah terurut.</p><p><b>Cara kerja:</b> seperti menyusun kartu remi di tangan.</p><p><b>Penggunaan:</b> data kecil atau hampir terurut.</p></div><pre>untuk i = 1 .. n-1
+  j = i
+  selama j &gt; 0 dan a[j-1] &gt; a[j]
+    tukar a[j-1], a[j]
+    j = j - 1</pre></div><div class="card" id="v-ins"></div></div>
+<div class="card" id="m-selection"><h3>3. Selection Sort</h3><div class="g2"><div><p><b>Definisi:</b> memilih nilai terkecil dari sisa data lalu menaruhnya di posisi paling depan.</p><p><b>Cara kerja:</b> cari minimum, tukar, lanjutkan ke posisi berikutnya.</p><p><b>Penggunaan:</b> bila jumlah pertukaran harus sedikit.</p></div><pre>untuk i = 0 .. n-2
+  min = i
+  untuk j = i+1 .. n-1
+    jika a[j] &lt; a[min]: min = j
+  tukar a[i], a[min]</pre></div><div class="card" id="v-sel"></div></div>
+<div class="card tw"><h3>Perbandingan</h3><table><tr><th>Algoritma</th><th>Kesulitan</th><th>Jumlah proses</th><th>Efisiensi</th></tr><tr><td>Bubble</td><td>Mudah</td><td>Banyak perbandingan &amp; pertukaran (O(n²))</td><td>Rendah</td></tr><tr><td>Insertion</td><td>Sedang</td><td>O(n²); jauh lebih sedikit jika data hampir terurut</td><td>Sedang, bagus untuk data kecil</td></tr><tr><td>Selection</td><td>Mudah</td><td>Perbandingan O(n²), pertukaran maksimal n−1</td><td>Sedang</td></tr></table></div></section>
+
+<section class="pg" id="p4"><h2>📚 Materi Struktur Data</h2>
+<div class="card" id="m-stack"><h3>Stack — LIFO (Last In First Out)</h3><p>Data terakhir yang masuk adalah yang pertama keluar. Masuk dan keluar lewat sisi atas. <b>Contoh:</b> tumpukan piring, tombol Undo, riwayat Back di browser.</p><div id="v-stk"></div></div>
+<div class="card" id="m-queue"><h3>Queue — FIFO (First In First Out)</h3><p>Data pertama yang masuk dilayani lebih dulu. Masuk dari belakang, keluar dari depan. <b>Contoh:</b> antrean kasir, antrean cetak printer, antrean tiket online.</p><div id="v-que"></div></div></section>
+
+<section class="pg" id="p5"><h2>🎮 Game Edukasi</h2>
+<div class="card"><h3>1. Tebak Algoritma</h3><p class="mu">Baca langkah simulasi, tebak algoritmanya. 10 poin per jawaban benar.</p><div id="g1"></div></div>
+<div class="card"><h3>2. Susun Langkah Algoritma</h3><div id="g2"></div></div>
+<div class="card"><h3>3. Stack atau Queue?</h3><p class="mu">10 poin per jawaban benar.</p><div id="g3"></div></div></section>
+
+<section class="pg" id="p6"><h2>📝 Kuis Interaktif</h2><div class="card"><p>20 soal acak · waktu 20 menit · nilai ≥ 80 mendapat sertifikat. <b id="tm"></b></p><div id="qz"></div></div></section>
+
+<section class="pg" id="p7"><h2>🧪 Latihan Simulasi</h2><p class="mu">Masukkan angkamu sendiri, pilih algoritma, lalu jalankan.</p><div class="card" id="lab"></div></section>
+
+<section class="pg" id="p8"><h2>📌 Rangkuman</h2>
+<div class="g2"><div class="card"><h3>🔎 Searching</h3><p>Linear: periksa satu per satu, data bebas. Binary: bagi dua, data harus terurut, jauh lebih sedikit langkah.</p></div><div class="card"><h3>📊 Sorting</h3><p>Bubble menukar tetangga, Insertion menyisipkan, Selection memilih terkecil. Ketiganya O(n²).</p></div><div class="card"><h3>📚 Stack</h3><p>LIFO · PUSH &amp; POP di atas.</p></div><div class="card"><h3>🚶 Queue</h3><p>FIFO · ENQUEUE di belakang, DEQUEUE di depan.</p></div></div>
+<div class="card"><h3>Diagram peta konsep</h3><div id="rm"></div></div></section>
+
+<section class="pg" id="p9"><h2>ℹ️ Referensi dan Profil</h2>
+<div class="card"><h3>Profil pembelajaran</h3><table><tr><th>Guru</th><td>Nur Tsawaabit</td></tr><tr><th>Mata pelajaran</th><td>Informatika</td></tr><tr><th>Kelas</th><td>X (Fase E)</td></tr><tr><th>Sekolah</th><td>SMAS Daar El Qolam 2</td></tr><tr><th>Tahun pelajaran</th><td>2026–2027, Semester Ganjil</td></tr></table></div>
+<div class="card"><h3>Referensi</h3><ul><li>Buku Teks Informatika SMA/MA Kelas X, Kemendikbudristek (Kurikulum Merdeka).</li><li>Cormen dkk., <i>Introduction to Algorithms</i>.</li><li>Khan Academy: Algorithms.</li><li>Code.org: materi ilmu komputer.</li><li>VisuAlgo (visualgo.net): visualisasi algoritma.</li></ul></div></section>
+</main><div id="toast" role="status"></div>
+<script>
+const $=(s,e=document)=>e.querySelector(s),$$=(s,e=document)=>[...e.querySelectorAll(s)],rnd=n=>Math.floor(Math.random()*n),sh=a=>[...a].sort(()=>Math.random()-.5);
+let S=null;try{S=JSON.parse(localStorage.getItem('ads'))}catch(e){}
+S=S||{done:{},games:{},quiz:0,b:[],theme:''};
+const T={linear:'Linear Search',binary:'Binary Search',bubble:'Bubble Sort',insertion:'Insertion Sort',selection:'Selection Sort',stack:'Stack',queue:'Queue'};
+const P=['🏠 Beranda','🗺️ Peta Konsep','🔎 Searching','📊 Sorting','📚 Struktur Data','🎮 Game Edukasi','📝 Kuis','🧪 Latihan','📌 Rangkuman','ℹ️ Referensi'];
+const gs=()=>Object.values(S.games).reduce((a,b)=>a+b,0);
+const BD=[['🌱','Langkah Pertama',()=>Object.keys(S.done).length>0],['🔎','Ahli Searching',()=>S.done.linear&&S.done.binary],['📊','Ahli Sorting',()=>S.done.bubble&&S.done.insertion&&S.done.selection],['📚','Ahli Struktur Data',()=>S.done.stack&&S.done.queue],['🎮','Gamer Algoritma',()=>gs()>=100],['🏆','Juara Kuis',()=>S.quiz>=80]];
+let tz;function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(tz);tz=setTimeout(()=>e.classList.remove('on'),2200)}
+function save(){try{localStorage.setItem('ads',JSON.stringify(S))}catch(e){}dash()}
+function mark(k){if(!S.done[k]){S.done[k]=1;toast('Materi selesai: '+T[k]);save()}}
+function dash(){const n=Object.keys(S.done).length,p=Math.round(n/7*100);$('#pgb').style.width=p+'%';$('#pgt').textContent=`${n} dari 7 materi sudah kamu jalankan (${p}%)`;
+ const got=BD.filter(b=>b[2]());$('#st').innerHTML=`<div><b>${n}/7</b>Materi</div><div><b>${gs()}</b>Skor game</div><div><b>${S.quiz}</b>Nilai kuis</div><div><b>${got.length}/6</b>Badge</div>`;
+ $('#bd').innerHTML=BD.map(b=>`<span class="${b[2]()?'got':''}">${b[0]} ${b[1]}</span>`).join('');
+ got.forEach(b=>{if(!S.b.includes(b[1])){S.b.push(b[1]);toast('Badge baru: '+b[0]+' '+b[1]);try{localStorage.setItem('ads',JSON.stringify(S))}catch(e){}}})}
+/* audio */
+let ac,snd=1,mt;function tone(f,d=.08,v=.05){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=f;g.gain.value=v;o.connect(g);g.connect(ac.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);o.stop(ac.currentTime+d)}catch(e){}}
+const beep=(f=520,d=.08)=>snd&&tone(f,d);document.addEventListener('click',e=>{if(e.target.closest('button'))beep()});
+$('#sn').onclick=()=>{snd=!snd;$('#sn').textContent=snd?'🔊':'🔈'};
+$('#mu').onclick=()=>{if(mt){clearInterval(mt);mt=0;$('#mu').textContent='🔇'}else{let k=0;const N=[262,330,392,523,392,330,294,349];mt=setInterval(()=>tone(N[k++%8],.45,.02),520);$('#mu').textContent='🎵'}};
+/* nav & theme */
+$('#nv').innerHTML=P.map((p,i)=>`<button data-go="${i}">${p}</button>`).join('');
+function go(i,sec){$$('.pg').forEach((e,k)=>e.classList.toggle('on',k==i));$$('#nv button').forEach((e,k)=>e.classList.toggle('on',k==i));$('#tt').textContent=P[i];$('#sb').classList.remove('open');scrollTo(0,0);if(sec)setTimeout(()=>{const e=$('#'+sec);e&&e.scrollIntoView()},60)}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)go(+g.dataset.go)});
+$('#mn').onclick=()=>$('#sb').classList.toggle('open');
+$('#th').onclick=()=>{const d=document.documentElement,dk=d.dataset.theme?d.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;d.dataset.theme=S.theme=dk?'light':'dark';save()};
+if(S.theme)document.documentElement.dataset.theme=S.theme;
+/* mind map */
+const MN=[['r','Algoritma',70,210,8,'',110],['s','Searching',290,70,2,'',120],['o','Sorting',290,210,3,'',120],['d','Struktur Data',290,350,4,'',130],['linear','Linear Search',540,35,2,'m-linear'],['binary','Binary Search',540,105,2,'m-binary'],['bubble','Bubble Sort',540,170,3,'m-bubble'],['insertion','Insertion Sort',540,215,3,'m-insertion'],['selection','Selection Sort',540,260,3,'m-selection'],['stack','Stack',540,325,4,'m-stack'],['queue','Queue',540,375,4,'m-queue']];
+const PR={s:'r',o:'r',d:'r',linear:'s',binary:'s',bubble:'o',insertion:'o',selection:'o',stack:'d',queue:'d'};
+function mm(){const m={};MN.forEach(n=>m[n[0]]=n);const C=['#4f46e5','#7c3aed','#2563eb'];let h='';MN.forEach(n=>{const p=m[PR[n[0]]];if(p){const x1=p[2]+(p[6]||130)/2,x2=n[2]-65;h+=`<path d="M${x1} ${p[3]} C${(x1+x2)/2} ${p[3]} ${(x1+x2)/2} ${n[3]} ${x2} ${n[3]}" fill="none" stroke="#a5b4fc" stroke-width="3"/>`}});
+ MN.forEach((n,i)=>{const w=n[6]||130,f=n[0]=='r'?C[0]:n[6]?C[1]:C[2];h+=`<g class="nd" tabindex="0" role="link" aria-label="${n[1]}" data-go="${n[4]}" data-sec="${n[5]}"><rect x="${n[2]-w/2}" y="${n[3]-17}" width="${w}" height="34" rx="17" fill="${f}"/><text x="${n[2]}" y="${n[3]+5}" text-anchor="middle" fill="#fff">${n[1]}</text></g>`});return h}
+$('#mm').innerHTML=mm();$('#rm').innerHTML='<svg viewBox="0 0 700 420" style="width:100%">'+mm()+'</svg>';
+document.addEventListener('click',e=>{const g=e.target.closest('.nd');if(g)go(+g.dataset.go,g.dataset.sec)});document.addEventListener('keydown',e=>{if(e.key=='Enter'&&e.target.classList.contains('nd'))e.target.dispatchEvent(new Event('click',{bubbles:true}))});
+/* engines */
+function uniq(n,mx=99){const s=new Set;while(s.size<n)s.add(1+rnd(mx));return[...s]}
+function sortF(al,a){a=[...a];const n=a.length,F=[];let c=0,s=0,so=[];const pu=(h,m,sw)=>F.push({a:[...a],h,m,c,s,so:[...so],sw});pu([],'Data awal. Tekan Play.');
+ if(al=='bubble'){for(let i=0;i<n-1;i++){for(let j=0;j<n-1-i;j++){c++;pu([j,j+1],`Bandingkan ${a[j]} dengan ${a[j+1]}`);if(a[j]>a[j+1]){[a[j],a[j+1]]=[a[j+1],a[j]];s++;pu([j,j+1],`Tukar: ${a[j+1]} bergeser ke kanan`,1)}}so.push(n-1-i)}}
+ else if(al=='insertion'){for(let i=1;i<n;i++){let j=i;while(j>0){c++;pu([j-1,j],`Sisipkan: bandingkan ${a[j]} dengan ${a[j-1]} di kirinya`);if(a[j-1]>a[j]){[a[j-1],a[j]]=[a[j],a[j-1]];s++;pu([j-1,j],`${a[j-1]} disisipkan ke kiri`,1);j--}else break}}}
+ else{for(let i=0;i<n-1;i++){let m=i;for(let j=i+1;j<n;j++){c++;pu([m,j],`Cari terkecil: bandingkan ${a[m]} dengan ${a[j]}`);if(a[j]<a[m])m=j}if(m!=i){[a[i],a[m]]=[a[m],a[i]];s++;pu([i,m],`Tukar ${a[i]} ke posisi ${i}`,1)}so.push(i)}}
+ so=a.map((_,k)=>k);pu([],'Selesai! Data sudah terurut.');return F}
+function linF(a,t){const n=a.length,F=[{a,lo:0,hi:n-1,h:[],s:0,m:`Mencari ${t}. Tekan Play.`}];let s=0;for(let k=0;k<n;k++){s++;const ok=a[k]==t;F.push({a,lo:k,hi:n-1,h:[k],s,f:ok?k:-1,m:`Cek indeks ${k}: ${a[k]} ${ok?'= '+t+' → ditemukan!':'≠ '+t}`});if(ok)return F}F.push({a,lo:n,hi:-1,h:[],s,m:'Data tidak ditemukan.'});return F}
+function binF(a,t){const n=a.length,F=[{a,lo:0,hi:n-1,h:[],s:0,m:`Mencari ${t}. Tekan Play.`}];let lo=0,hi=n-1,s=0;while(lo<=hi){const mid=(lo+hi)>>1,v=a[mid];s++;F.push({a,lo,hi,mid,h:[],s,f:v==t?mid:-1,m:`Tengah: indeks ${mid} (nilai ${v}) ${v==t?'= '+t+' → ditemukan!':v<t?'< '+t+', cari di kanan':'> '+t+', cari di kiri'}`});if(v==t)return F;v<t?lo=mid+1:hi=mid-1}F.push({a,lo:n,hi:-1,h:[],s,m:'Data tidak ditemukan.'});return F}
+function drawB(f,st,ct,i){const n=f.a.length,mx=Math.max(...f.a);if(st.children.length!=n||!st.classList.contains('bars')){st.className='stage bars';st.innerHTML=f.a.map(()=>'<div class="bi"><span></span></div>').join('')}
+ [...st.children].forEach((e,k)=>{e.style.height=Math.max(8,f.a[k]/mx*100)+'%';e.firstChild.textContent=f.a[k];e.className='bi'+(f.so.includes(k)?' so':'')+(f.h.includes(k)?f.sw?' sw':' hi':'')});
+ ct.innerHTML=`<span>Langkah: <b>${i}</b></span><span>Perbandingan: <b>${f.c}</b></span><span>Pertukaran: <b>${f.s}</b></span>`}
+function drawS(f,st,ct){const n=f.a.length;if(st.children.length!=n||!st.classList.contains('bxs')){st.className='stage bxs';st.innerHTML=f.a.map(()=>'<div class="bx"><b></b><small></small></div>').join('')}
+ [...st.children].forEach((e,k)=>{e.firstChild.textContent=f.a[k];e.lastChild.textContent='['+k+']';e.className='bx'+(k<f.lo||k>f.hi?' dim':'')+(f.h.includes(k)?' hi':'')+(k==f.mid?' mid':'')+(k==f.f?' ok':'')});ct.innerHTML=`<span>Langkah pencarian: <b>${f.s}</b></span>`}
+function player(el,build,draw,done){let fr=[],i=0,t=0;el.insertAdjacentHTML('beforeend','<div class="stage"></div><div class="msg" aria-live="polite"></div><div class="ctr"></div><div class="row"><button class="b" data-a="play">▶ Play</button><button class="b2" data-a="pause">⏸ Pause</button><button class="b2" data-a="step">Langkah ›</button><button class="b2" data-a="reset">↺ Reset</button><label>Kecepatan <input type="range" min="1" max="5" value="3" aria-label="Kecepatan"></label></div>');
+ const st=$('.stage',el),ms=$('.msg',el),ct=$('.ctr',el),sp=$('input[type=range]',el);
+ const show=()=>{draw(fr[i],st,ct,i);ms.textContent=fr[i].m||''},stop=()=>{clearInterval(t);t=0},
+ next=()=>{if(i<fr.length-1){i++;show();if(i==fr.length-1){stop();done&&done()}}else stop()},
+ reset=()=>{stop();fr=build();i=0;show()},play=()=>{if(t)return;if(i>=fr.length-1)reset();t=setInterval(next,1400-sp.value*240)};
+ el.addEventListener('click',e=>{const a=e.target.dataset.a;if(a=='play')play();else if(a=='pause')stop();else if(a=='step'){stop();next()}else if(a=='reset')reset()});reset();return{reset,play}}
+function mkSearch(el,bin){let a;const reg=()=>{a=uniq(bin?15:12);if(bin)a.sort((x,y)=>x-y);inp.value=a[rnd(a.length)]};
+ el.innerHTML=`<div class="row"><label>Cari angka <input type="number" class="ti" style="width:90px"></label><button class="b" data-a="cari">🔍 Cari</button><button class="b2" data-a="acak">🎲 Acak data</button></div>`;const inp=$('.ti',el);reg();
+ const p=player(el,()=>(bin?binF:linF)(a,+inp.value),drawS,()=>mark(bin?'binary':'linear'));
+ el.addEventListener('click',e=>{const x=e.target.dataset.a;if(x=='cari'){p.reset();p.play()}if(x=='acak'){reg();p.reset()}})}
+function mkSort(el,al){let a=uniq(8,40);el.innerHTML='<div class="row"><button class="b2" data-a="acak">🎲 Data baru</button></div>';const p=player(el,()=>sortF(al,a),drawB,()=>mark(al));el.addEventListener('click',e=>{if(e.target.dataset.a=='acak'){a=uniq(8,40);p.reset()}})}
+mkSearch($('#v-lin'),0);mkSearch($('#v-bin'),1);mkSort($('#v-bub'),'bubble');mkSort($('#v-ins'),'insertion');mkSort($('#v-sel'),'selection');
+$('#chart').innerHTML=[10,100,1000,10000,100000].map(n=>{const b=Math.floor(Math.log2(n))+1;return`<div class="cr"><b>${n.toLocaleString('id-ID')} data</b><div class="cb" style="width:${Math.log10(n+1)/5.1*100}%">Linear: ${n}</div><div class="cb c2" style="width:${Math.max(8,Math.log10(b+1)/5.1*100)}%">Binary: ${b}</div></div>`}).join('')+'<p class="mu">Panjang batang memakai skala logaritmik agar kedua nilai tetap terlihat.</p>';
+function lab(el){let al;el.innerHTML=`<div class="row"><label>Angka <input class="li" value="29, 10, 14, 37, 13, 5" size="24" aria-label="Daftar angka"></label><label>Algoritma <select class="ls">${Object.keys(T).slice(0,5).map(k=>`<option value="${k}">${T[k]}</option>`).join('')}</select></label><label>Target <input type="number" class="lq" value="14" style="width:80px"></label><button class="b" data-a="run">▶ Jalankan</button></div>`;
+ const g=s=>$(s,el),build=()=>{al=g('.ls').value;let a=g('.li').value.split(/[\s,;]+/).map(Number).filter(x=>Number.isInteger(x)&&x>0&&x<1000).slice(0,15);if(a.length<2){a=[29,10,14,37,13,5];toast('Masukkan 2–15 angka bulat positif')}if(al=='binary'){a.sort((x,y)=>x-y)}const t=+g('.lq').value;return al=='linear'?linF(a,t):al=='binary'?binF(a,t):sortF(al,a)};
+ const p=player(el,build,(f,s,c,i)=>(al=='linear'||al=='binary'?drawS:drawB)(f,s,c,i),()=>mark(al));el.addEventListener('click',e=>{if(e.target.dataset.a=='run'){p.reset();if(al=='binary')toast('Data diurutkan otomatis untuk Binary Search');p.play()}})}
+lab($('#lab'));
+function mkDS(el,q){const L=q?['ENQUEUE','DEQUEUE']:['PUSH','POP'],N=q?'Queue':'Stack';el.innerHTML=`<div class="row"><input class="di" maxlength="6" placeholder="Data" aria-label="Data"><button class="b" data-a="in">${L[0]}</button><button class="b2" data-a="out">${L[1]}</button></div><div class="${q?'qb':'sb'}"></div><p class="msg" aria-live="polite">${q?'Kiri = depan · kanan = belakang':'Dasar tumpukan ada di bawah'}</p>`;
+ const bx=$(q?'.qb':'.sb',el),m=$('.msg',el),inp=$('.di',el);let n=0;
+ el.onclick=e=>{const a=e.target.dataset.a;if(a=='in'){if(bx.children.length>=7){m.textContent=N+' penuh (maks 7).';return}const v=inp.value.trim()||String(++n*7%100),d=document.createElement('div');d.className='it in';d.textContent=v;bx.appendChild(d);m.textContent=`${L[0]} ${v}: data masuk dari ${q?'belakang':'atas'}.`;inp.value=''}
+ else if(a=='out'){const ch=[...bx.children].filter(x=>!x.classList.contains('out')),d=q?ch[0]:ch[ch.length-1];if(!d){m.textContent=N+' kosong!';return}m.textContent=`${L[1]} ${d.textContent}: data keluar dari ${q?'depan':'atas'}.`;d.classList.add('out');setTimeout(()=>d.remove(),350);mark(q?'queue':'stack')}}}
+mkDS($('#v-stk'),0);mkDS($('#v-que'),1);
+/* quiz engine */
+function mc(el,items,cb){let i=0,ok=0,lk=0;const r=()=>{if(i>=items.length){el.onclick=null;return cb(ok)}const q=items[i];lk=0;el.innerHTML=`<div class="pbar"><i style="width:${i/items.length*100}%"></i></div><p class="mu">Soal ${i+1} dari ${items.length} · Benar ${ok}</p><div class="q">${q.q}</div><div class="opts">${q.o.map((o,k)=>`<button class="opt" data-k="${k}">${o}</button>`).join('')}</div><div class="fb" aria-live="polite"></div>`};
+ el.onclick=e=>{if(e.target.closest('.nx')){i++;r();return}const b=e.target.closest('.opt');if(!b||lk)return;lk=1;const k=+b.dataset.k,q=items[i];if(k==q.c)ok++;$$('.opt',el).forEach((x,j)=>{x.disabled=1;if(j==q.c)x.classList.add('right');else if(j==k)x.classList.add('wrong')});$('.fb',el).innerHTML=`<p><b>${k==q.c?'✅ Benar!':'❌ Belum tepat.'}</b> ${q.e||''}</p><button class="b nx">Lanjut ›</button>`;beep(k==q.c?740:220,.15)};r();return()=>ok}
+function game(el,name,pt,mk){const go=()=>mc(el,mk(),ok=>{const sc=ok*pt;S.games[name]=Math.max(S.games[name]||0,sc);save();el.innerHTML=`<h3>Skor ${sc} 🎉</h3><p>Skor terbaik: ${S.games[name]}</p><button class="b">Main lagi</button>`;el.onclick=e=>{if(e.target.closest('button'))go()}});el.innerHTML='<button class="b">▶ Mulai game</button>';el.onclick=go}
+const AL=['linear','binary','bubble','insertion','selection'];
+game($('#g1'),'g1',10,()=>Array.from({length:5},()=>{const k=AL[rnd(5)];let a=uniq(6);if(k=='binary')a.sort((x,y)=>x-y);const t=a[rnd(6)],F=k=='linear'?linF(a,t):k=='binary'?binF(a,t):sortF(k,a);return{q:`Data: <b>${a.join(', ')}</b><ol>${F.slice(1,7).map(f=>`<li>${f.m}</li>`).join('')}</ol>Algoritma apa ini?`,o:AL.map(x=>T[x]),c:AL.indexOf(k),e:'Jawaban: '+T[k]+'.'}}));
+game($('#g3'),'g3',10,()=>sh([['Tumpukan piring di dapur',0],['Antrean pembeli di kasir',1],['Tombol Undo (Ctrl+Z)',0],['Antrean dokumen printer',1],['Riwayat tombol Back di browser',0],['Antrean pasien di klinik',1],['Tumpukan buku di meja',0],['Antrean tiket konser online',1]]).slice(0,6).map(([q,c])=>({q:q+' termasuk…',o:['Stack','Queue'],c,e:c?'Pertama masuk, pertama dilayani (FIFO).':'Terakhir masuk, pertama keluar (LIFO).'})));
+(function(el){const ST=['Pastikan data sudah terurut','Tentukan batas kiri dan batas kanan','Hitung posisi tengah','Bandingkan nilai tengah dengan target','Jika belum sama, buang separuh data yang tidak mungkin','Ulangi sampai ketemu atau data habis'];let o,sel=-1,dr=-1;
+ const draw=()=>{el.innerHTML=`<p>Urutkan langkah <b>Binary Search</b>. Seret langkah, atau ketuk dua langkah untuk menukar. Benar semua = 60 poin.</p><ol class="dl">${o.map((s,k)=>`<li draggable="true" data-k="${k}" tabindex="0" class="${k==sel?'sel':''}">${ST[s]}</li>`).join('')}</ol><button class="b" data-a="cek">✔ Periksa</button> <button class="b2" data-a="ac">🎲 Acak ulang</button><p class="fb" aria-live="polite"></p>`},
+ swap=(x,y)=>{[o[x],o[y]]=[o[y],o[x]];sel=-1;draw()},start=()=>{do o=sh(ST.map((_,k)=>k));while(o.every((v,k)=>v==k));sel=-1;draw()};
+ el.ondragstart=e=>{dr=+e.target.dataset.k};el.ondragover=e=>e.preventDefault();el.ondrop=e=>{const t=e.target.closest('li');if(t&&dr>=0)swap(dr,+t.dataset.k)};
+ el.onkeydown=e=>{if(e.key=='Enter'&&e.target.matches('li'))e.target.click()};
+ el.onclick=e=>{const li=e.target.closest('li'),a=e.target.dataset.a;if(li){const k=+li.dataset.k;if(sel<0){sel=k;draw()}else if(sel==k){sel=-1;draw()}else swap(sel,k)}else if(a=='ac')start();else if(a=='cek'){const n=o.filter((v,k)=>v==k).length;if(n==6){S.games.g2=60;save();$('.fb',el).textContent='🎉 Urutan benar! +60 poin'}else $('.fb',el).textContent=`${n} dari 6 langkah sudah di tempat yang benar.`}};start()})($('#g2'));
+const QZ=[['Pencarian yang memeriksa data satu per satu dari awal disebut…',['Binary Search','Linear Search','Bubble Sort','Stack'],1,'Itulah Linear Search.'],['Syarat utama Binary Search adalah…',['Data terurut','Data acak','Data genap','Data kurang dari 10'],0,'Binary Search membuang separuh data berdasarkan urutan.'],['Pada 1.000 data terurut, Binary Search paling banyak kira-kira…',['10 langkah','100 langkah','500 langkah','1000 langkah'],0,'log₂1000 ≈ 10.'],['Pada 50 data, Linear Search paling banyak memeriksa…',['1 data','6 data','25 data','50 data'],3,'Kasus terburuk: target di akhir atau tidak ada.'],['Binary Search mencari 7 pada [1,3,5,7,9]. Nilai tengah pertama?',['1','5','7','9'],1,'Indeks tengah = 2, nilainya 5.'],['Contoh Linear Search sehari-hari…',['Membuka kamus di halaman tengah','Mencari nama di daftar absen dari atas','Menyusun kartu remi','Antre di kasir'],1,'Membaca satu per satu.'],['Bubble Sort bekerja dengan…',['Menukar pasangan bersebelahan yang salah urut','Membagi data dua','Memilih nilai tengah','Menumpuk data'],0,'Pertukaran tetangga berulang.'],['Setelah putaran pertama Bubble Sort (menaik), nilai terbesar ada di…',['Paling kiri','Tengah','Paling kanan','Tidak berubah'],2,'Nilai terbesar menggelembung ke kanan.'],['Selection Sort bekerja dengan…',['Mencari nilai terkecil lalu menaruhnya di posisi depan','Menukar tetangga terus-menerus','Membagi data','Antre data'],0,'Pilih minimum, tukar ke posisi depan.'],['Algoritma yang mirip menyusun kartu di tangan…',['Bubble Sort','Selection Sort','Insertion Sort','Linear Search'],2,'Insertion Sort menyisipkan elemen ke bagian terurut.'],['Hasil putaran pertama Bubble Sort pada [5,3,8,1]?',['[3,5,1,8]','[1,3,5,8]','[3,5,8,1]','[5,3,1,8]'],0,'5>3 tukar; 5<8; 8>1 tukar → [3,5,1,8].'],['Untuk data yang hampir terurut, yang cenderung cepat…',['Bubble tanpa pengecekan','Insertion Sort','Selection Sort','Semua sama'],1,'Insertion hanya sedikit menggeser.'],['Prinsip Stack adalah…',['FIFO','LIFO','Acak','Terurut'],1,'Last In First Out.'],['Operasi memasukkan data ke Stack…',['Pop','Push','Enqueue','Dequeue'],1,'PUSH menambah di atas.'],['Push 3, 5, 7 lalu Pop. Data yang keluar…',['3','5','7','Tidak ada'],2,'7 masuk terakhir, keluar pertama.'],['Contoh penerapan Stack…',['Antrean kasir','Tombol Undo','Antrean printer','Antrean tiket'],1,'Aksi terakhir dibatalkan lebih dulu.'],['Prinsip Queue adalah…',['LIFO','FIFO','Acak','Menurun'],1,'First In First Out.'],['Operasi menghapus data dari Queue…',['Push','Pop','Dequeue','Enqueue'],2,'DEQUEUE mengeluarkan dari depan.'],['Antrean dokumen pada printer adalah contoh…',['Stack','Queue','Binary Search','Bubble Sort'],1,'Dokumen pertama dicetak lebih dulu.'],['Enqueue 2, 4, 6 lalu Dequeue. Data yang keluar…',['2','4','6','Tidak ada'],0,'2 masuk pertama, keluar pertama.']];
+(function(el){let tm;const tl=$('#tm'),menu=()=>{el.innerHTML='<button class="b">▶ Mulai kuis</button>';el.onclick=start},
+ fin=ok=>{clearInterval(tm);el.onclick=null;tl.textContent='';const sc=ok*5;S.quiz=Math.max(S.quiz,sc);save();el.innerHTML=`<h3>Nilai kamu: ${sc}</h3><p>${ok} dari 20 benar. ${sc>=80?'Hebat! Isi namamu untuk sertifikat.':'Pelajari lagi materinya, lalu coba ulang untuk mencapai 80.'}</p>`+(sc>=80?`<label>Nama siswa <input id="nm" maxlength="40"></label><div class="cert"><h2>🏅 Sertifikat Digital</h2><p>Diberikan kepada</p><h3 id="cn">…</h3><p>atas nilai <b>${sc}</b> pada kuis “Algoritma dan Struktur Data Dasar”, Informatika Kelas X.</p></div><button class="b" onclick="print()">🖨 Cetak</button> `:'')+'<button class="b2" id="rq">Ulangi kuis</button>';
+  const nm=$('#nm');if(nm)nm.oninput=()=>$('#cn').textContent=nm.value||'…';$('#rq').onclick=menu},
+ start=()=>{const it=sh(QZ).map(([q,o,c,e])=>{const x=sh(o.map((_,k)=>k));return{q,o:x.map(k=>o[k]),c:x.indexOf(c),e}});let s=1200;const get=mc(el,it,fin);tm=setInterval(()=>{s--;tl.textContent=`⏱ ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;if(s<=0)fin(get())},1000)};menu()})($('#qz'));
+/* Rekap ke Google Form → Google Sheet. Isi dari tautan "Dapatkan link terisi otomatis" milik guru */
+const FORM={url:'https://docs.google.com/forms/d/e/1FAIpQLSeiHx63NmN-O8RnqOpMhQeb1FDDXgN1V6V-vZPBRXKr6Dj7SA/viewform',f:{nama:'entry.1775548750',kelas:'entry.1566240731',materi:'entry.554736943',game:'entry.1549624195',kuis:'entry.1299883083',badge:'entry.1227296319'}};
+const rec=()=>({nama:$('#sn1').value.trim(),kelas:$('#sk').value.trim(),materi:Object.keys(S.done).length,game:gs(),kuis:S.quiz,badge:S.b.length});
+$('#sn1').value=S.nama||'';$('#sk').value=S.kelas||'';
+['#sn1','#sk'].forEach(s=>$(s).oninput=()=>{S.nama=$('#sn1').value;S.kelas=$('#sk').value;save()});
+$('#snd').onclick=()=>{const r=rec();if(!r.nama||!r.kelas){toast('Isi nama dan kelas dulu');return}
+ if(!FORM.url||!Object.values(FORM.f).every(Boolean)){$('#snm').textContent='Pengiriman otomatis belum diatur guru. Pakai "Salin baris hasil", lalu kirim ke gurumu.';return}
+ window.open(FORM.url+'?usp=pp_url&'+Object.keys(FORM.f).map(k=>FORM.f[k]+'='+encodeURIComponent(r[k])).join('&'),'_blank','noopener')};
+$('#cpy').onclick=async()=>{const r=rec();if(!r.nama||!r.kelas){toast('Isi nama dan kelas dulu');return}const t=[r.nama,r.kelas,r.materi,r.game,r.kuis,r.badge,new Date().toLocaleString('id-ID')].join('\t');try{await navigator.clipboard.writeText(t);toast('Baris hasil disalin')}catch(e){$('#snm').textContent=t}};
+dash();go(0);
+</script></body></html>
